@@ -1,8 +1,55 @@
-# ChurnScope — Customer Churn Intelligence
+<div align="center">
+  <img src="frontend/public/favicon.svg" alt="ChurnScope logo" width="88" />
 
-This project predicts customer churn for a streaming subscription business and presents the results in a React landing page and customer-risk dashboard backed by FastAPI.
+  <h1>ChurnScope</h1>
+
+  <h3>Customer Churn Intelligence</h3>
+
+  <p>
+    <img src="https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.11" />
+    <img src="https://img.shields.io/badge/FastAPI-0.115-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI 0.115" />
+    <img src="https://img.shields.io/badge/React-18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React 18" />
+    <img src="https://img.shields.io/badge/LightGBM-4.5-174C3C?style=for-the-badge" alt="LightGBM 4.5" />
+    <img src="https://img.shields.io/badge/Model_ROC--AUC-95.79%25-BBD75D?style=for-the-badge" alt="Model ROC-AUC 95.79%" />
+    <img src="https://img.shields.io/badge/Deployment-Live-1E9B71?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Deployment live" />
+  </p>
+
+  <p>
+    <a href="https://churnscope.pages.dev/"><strong>View Live Project ↗</strong></a>
+    &nbsp;·&nbsp;
+    <a href="#product-preview">Product Preview</a>
+    &nbsp;·&nbsp;
+    <a href="#modeling-decisions">Modeling Decisions</a>
+    &nbsp;·&nbsp;
+    <a href="#project-structure">Architecture</a>
+    &nbsp;·&nbsp;
+    <a href="#setup">Quick Start</a>
+  </p>
+</div>
+
+---
+
+**ChurnScope** predicts which streaming subscribers are most likely to leave and turns those predictions into practical retention actions. It combines account, billing, support, and engagement behavior in a production-ready LightGBM pipeline, then presents the results through a React customer-risk dashboard backed by FastAPI.
+
+> Retention teams should not have to search through thousands of records to find the customers who need attention. ChurnScope makes the risk visible—and the next action clear.
 
 The modeling workflow comes from `Customer_Churn_Prediction.ipynb`. The production application uses the saved LightGBM model, a reusable preprocessing pipeline, FastAPI, and React. The React application also has a static-first mode for free Cloudflare deployment.
+
+## Product Preview
+
+<p align="center">
+  <a href="https://churnscope.pages.dev/">
+    <img src="docs/screenshots/churnscope-home.png" alt="ChurnScope customer retention intelligence landing page" width="100%" />
+  </a>
+</p>
+
+<p align="center"><em>Customer retention landing page — click the image to open the live project.</em></p>
+
+<p align="center">
+  <img src="docs/screenshots/churnscope-dashboard.png" alt="ChurnScope customer churn risk dashboard" width="100%" />
+</p>
+
+<p align="center"><em>Portfolio dashboard with risk distribution, revenue exposure, subscription analysis, and highest-risk customers.</em></p>
 
 ## Dataset
 
