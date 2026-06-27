@@ -1,0 +1,27 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+.venv/
+.venv*/
+venv/
+env/
+
+.ipynb_checkpoints/
+.streamlit/secrets.toml
+
+*.log
+
+# Kaggle dataset downloads
+data/*.csv
+data/*.zip
+train.csv
+test.csv
+data_descriptions.csv
+
+# React build artifacts
+frontend/node_modules/
+frontend/dist/

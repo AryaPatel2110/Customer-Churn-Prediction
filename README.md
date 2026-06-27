@@ -1,8 +1,8 @@
-# Customer Churn Prediction And Risk Dashboard
+# ChurnScope — Customer Churn Intelligence
 
-This project predicts customer churn for a streaming subscription business and turns the model output into dashboards, customer risk tables, single-customer predictions, and API responses.
+This project predicts customer churn for a streaming subscription business and presents the results in a React landing page and customer-risk dashboard backed by FastAPI.
 
-The modeling workflow comes from `Customer_Churn_Prediction.ipynb`. The production app uses the saved model artifact, a reusable preprocessing module, Streamlit dashboards, and a FastAPI service.
+The modeling workflow comes from `Customer_Churn_Prediction.ipynb`. The production application uses the saved LightGBM model, a reusable preprocessing pipeline, FastAPI, and React. The React application also has a static-first mode for free Cloudflare deployment.
 
 ## Dataset
 
@@ -16,7 +16,7 @@ Download it with:
 bash scripts/download_dataset.sh
 ```
 
-The Streamlit app expects:
+The model was trained on `data/train.csv`. The dashboard treats `data/test.csv` as the current customer portfolio and scores all 104,480 records with the saved artifacts.
 
 ```text
 data/train.csv
@@ -186,10 +186,10 @@ The notebook was converted into reusable code:
 - `src/churn_features.py` contains deterministic feature engineering.
 - `src/churn_service.py` loads artifacts, scores customers, assigns risk bands, and generates recommendations.
 - `src/train.py` retrains the model from a CSV.
-- `src/api.py` exposes predictions through FastAPI.
-- `app.py` provides Streamlit dashboards and prediction UI.
+- `src/api.py` exposes predictions and portfolio analytics through FastAPI.
+- `frontend/` contains the React landing page and dashboard.
 
-The deployed preprocessing pipeline is intentionally simpler than the experimental notebook pipeline. It focuses on the stable engineered fields, categorical mapping for `SubscriptionType`, and feature selection. This makes the app easier to run across environments and avoids brittle notebook-only transformations.
+The deployed preprocessing pipeline is intentionally simpler than the experimental notebook pipeline. It focuses on the stable engineered fields, categorical mapping for `SubscriptionType`, and feature selection. This makes the service easier to run across environments and avoids brittle notebook-only transformations.
 
 Operational risk bands:
 
@@ -203,7 +203,12 @@ Operational risk bands:
 
 ```text
 .
-├── app.py
+├── frontend/
+│   ├── src/
+│   │   ├── App.jsx
+│   │   └── styles.css
+│   ├── package.json
+│   └── vite.config.js
 ├── scripts/
 │   └── download_dataset.sh
 ├── src/
@@ -214,8 +219,7 @@ Operational risk bands:
 │   └── train.py
 ├── tests/
 │   ├── test_churn_features.py
-│   ├── test_churn_service.py
-│   └── test_demo_portfolio.py
+│   └── test_churn_service.py
 ├── Customer_Churn_Prediction.ipynb
 ├── preprocessing_pipeline.pkl
 ├── smote_lgbm.pkl
@@ -248,29 +252,43 @@ Download the dataset:
 bash scripts/download_dataset.sh
 ```
 
-## Run The Streamlit App
+## Run The Application Locally
 
-```bash
-streamlit run app.py
-```
-
-The app loads `data/train.csv` automatically.
-
-Dashboard pages:
-
-- `Customer Churn Dashboard`
-- `Customer Risk Analysis Dashboard`
-- `Customer Risk Explorer`
-- `Prediction Webpage`
-- `Model Monitoring`
-
-## Run The API
+Start the API:
 
 ```bash
 uvicorn src.api:app --reload
 ```
 
-Health check:
+In a second terminal, start React:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173`.
+
+The dashboard includes:
+
+- Portfolio KPIs and risk-band distribution
+- Existing-customer search, filters, sorting, and detail views
+- Model-scored churn probability and retention recommendations
+- Interactive single-customer predictions
+- Model metrics, pipeline stages, and global feature importance
+
+By default, React reads the pre-scored portfolio and compact LightGBM trees from
+`frontend/public/data`. The customer explorer and prediction form therefore work
+without a running Python API.
+
+To explicitly use FastAPI during frontend development:
+
+```bash
+VITE_API_MODE=server npm run dev
+```
+
+API health check:
 
 ```bash
 curl http://localhost:8000/health
@@ -342,23 +360,9 @@ Tests cover:
 - Missing-column validation
 - Customer warnings
 - Retention action logic
-- Demo portfolio schema
 
 ## Docker
 
 ```bash
 docker compose up --build
 ```
-
-Services:
-
-- Dashboard: `http://localhost:8501`
-- API: `http://localhost:8000`
-
-## Limitations And Next Improvements
-
-- Add SHAP for per-customer model explanations.
-- Persist training metrics to `metrics.json`.
-- Add model version metadata.
-- Add CI checks for tests and Docker builds.
-- Reconcile the experimental notebook preprocessing steps with the production pipeline if full parity is required.

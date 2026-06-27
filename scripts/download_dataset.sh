@@ -16,4 +16,4 @@ fi
 kaggle datasets download "$DATASET" --path "$OUT_DIR" --unzip
 
 echo "Dataset downloaded to $OUT_DIR"
-echo "The dashboard will automatically use $OUT_DIR/train.csv."
+echo "Training commands can use $OUT_DIR/train.csv."
