@@ -45,11 +45,6 @@ The modeling workflow comes from `Customer_Churn_Prediction.ipynb`. The producti
 
 <p align="center"><em>Customer retention landing page — click the image to open the live project.</em></p>
 
-<p align="center">
-  <img src="docs/screenshots/churnscope-dashboard.png" alt="ChurnScope customer churn risk dashboard" width="100%" />
-</p>
-
-<p align="center"><em>Portfolio dashboard with risk distribution, revenue exposure, subscription analysis, and highest-risk customers.</em></p>
 
 ## Dataset
 
